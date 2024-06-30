@@ -221,7 +221,14 @@ public class ServerMvcIntegrationTests {
 				.consumeWith(res -> {
 					Map<String, Object> map = res.getResponseBody();
 					Map<String, Object> headers = getMap(map, "headers");
-					assertThat(headers).containsEntry("X-Forwarded-Prefix", "/long/path/to");
+					assertThat(headers).containsKeys(
+							XForwardedRequestHeadersFilter.X_FORWARDED_PREFIX_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_HOST_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_PORT_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_PROTO_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_FOR_HEADER);
+					assertThat(headers).containsEntry(
+							XForwardedRequestHeadersFilter.X_FORWARDED_PREFIX_HEADER, "/long/path/to");
 					assertThat(headers).containsEntry("X-Test", "stripPrefix");
 				});
 	}
@@ -233,7 +240,14 @@ public class ServerMvcIntegrationTests {
 					Map<String, Object> map = res.getResponseBody();
 					assertThat(map).containsEntry("data", "hello");
 					Map<String, Object> headers = getMap(map, "headers");
-					assertThat(headers).containsEntry("X-Forwarded-Prefix", "/long/path/to");
+					assertThat(headers).containsKeys(
+							XForwardedRequestHeadersFilter.X_FORWARDED_PREFIX_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_HOST_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_PORT_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_PROTO_HEADER,
+							XForwardedRequestHeadersFilter.X_FORWARDED_FOR_HEADER);
+					assertThat(headers).containsEntry(
+							XForwardedRequestHeadersFilter.X_FORWARDED_PREFIX_HEADER, "/long/path/to");
 					assertThat(headers).containsEntry("X-Test", "stripPrefixPost");
 				});
 	}
